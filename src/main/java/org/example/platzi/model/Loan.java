@@ -5,27 +5,19 @@ import java.util.UUID;
 
 public class Loan {
     private String id;
-    private Book book;
     private Student student;
+    private Book book;
     private LocalDate loanDate;
     private LocalDate returnDate;
-    private boolean returned;
+    private boolean isLoan;
 
-    public Loan(Book book, Student student, boolean returned) {
+    public Loan(Student student, Book book, boolean isLoan) {
         this.id = UUID.randomUUID().toString();
-        this.book = book;
         this.student = student;
-        this.returned = returned;
+        this.book = book;
+        this.isLoan = isLoan;
         this.loanDate = LocalDate.now();
         this.returnDate = loanDate.plusDays(7);
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
     }
 
     public Student getStudent() {
@@ -36,23 +28,31 @@ public class Loan {
         this.student = student;
     }
 
-    public boolean isReturned() {
-        return returned;
+    public Book getBook() {
+        return book;
     }
 
-    public void setReturned(boolean returned) {
-        this.returned = returned;
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public boolean isLoan() {
+        return isLoan;
+    }
+
+    public void setLoan(boolean loan) {
+        isLoan = loan;
     }
 
     @Override
     public String toString() {
         return "Loan{" +
                 "id='" + id + '\'' +
-                ", book=" + book +
                 ", student=" + student +
+                ", book=" + book +
                 ", loanDate=" + loanDate +
                 ", returnDate=" + returnDate +
-                ", returned=" + returned +
+                ", isLoan=" + isLoan +
                 '}';
     }
 }
