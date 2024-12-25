@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class Loan {
-    private String id;
+    private final String id;
     private Student student;
     private Book book;
-    private LocalDate loanDate;
-    private LocalDate returnDate;
+    private final LocalDate loanDate;
+    private final LocalDate returnDate;
     private boolean isLoan;
 
     public Loan(Student student, Book book, boolean isLoan) {
