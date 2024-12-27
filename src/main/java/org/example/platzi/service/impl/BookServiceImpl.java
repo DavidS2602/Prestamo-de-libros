@@ -4,6 +4,7 @@ import org.example.platzi.exceptions.BookNotFoundException;
 import org.example.platzi.exceptions.DuplicateBookException;
 import org.example.platzi.exceptions.ErrorMessages;
 import org.example.platzi.model.Book;
+import org.example.platzi.model.Loan;
 import org.example.platzi.service.IBookService;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class BookServiceImpl implements IBookService {
     private final List<Book> books = new ArrayList<>();
 
     @Override
-    public void registerBook(Book book) {
+    public void registerBook(Book book, Loan loan) {
         boolean isDuplicateBooks = books.stream()
                 .anyMatch(b -> b.getIsbn().equals(book.getIsbn()));
 
@@ -27,12 +28,12 @@ public class BookServiceImpl implements IBookService {
     }
 
     @Override
-    public List<Book> getAllBooks() {
+    public List<Book> getAllBooks(Loan loan) {
         return books;
     }
 
     @Override
-    public Optional<Book> findBookByISBN(String isbn) {
+    public Optional<Book> findBookByISBN(String isbn, Loan loan) {
         Optional<Book> optionalBook = books.stream()
                 .filter(book -> book.getIsbn().equals(isbn))
                 .findFirst();
