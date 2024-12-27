@@ -15,7 +15,7 @@ public enum ErrorMessages {
         this.messageFormat = messageFormat;
     }
 
-    public String formatMessage(String message) {
+    public String formatMessage(String message, String title) {
         return String.format(messageFormat, message);
     }
 }
