@@ -44,6 +44,14 @@ public class Loan {
         isLoan = loan;
     }
 
+    public LocalDate getLoanDate() {
+        return loanDate;
+    }
+
+    public LocalDate getReturnDate() {
+        return returnDate;
+    }
+
     @Override
     public String toString() {
         return "Loan{" +

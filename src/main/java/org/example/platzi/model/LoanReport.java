@@ -7,5 +7,4 @@ public record LoanReport(
         LocalDate loanDate,
         LocalDate returnDate,
         String studentName
-) {
-}
+) {}
