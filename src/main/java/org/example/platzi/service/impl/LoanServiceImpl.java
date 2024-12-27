@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoanServiceImpl implements ILoanService {
-    private List<Loan> loans = new ArrayList<>();
+    private final List<Loan> loans = new ArrayList<>();
 
     @Override
     public void registerLoan(Loan loan, Student student, LocalDate date) {
         boolean isDuplicateLoan = loans.stream()
                 .anyMatch(l -> l.getStudent().getDNI().equals(student.getDNI())
-                && l.getBook().getTitle().equals(loan.getBook().getTitle())
+                        && l.getBook().getTitle().equals(loan.getBook().getTitle())
                         && l.getLoanDate().equals(date)
                 );
         if (isDuplicateLoan) {
@@ -45,14 +45,14 @@ public class LoanServiceImpl implements ILoanService {
                 .filter(
                         loan -> (loan.getLoanDate().isEqual(startDate) ||
                                 loan.getLoanDate().isAfter(startDate))
-                        && ((loan.getReturnDate().isEqual(endDate) ||
+                                && ((loan.getReturnDate().isEqual(endDate) ||
                                 loan.getLoanDate().isBefore(endDate))
                         )).map(
-                                loan -> new LoanReport(
-                                        loan.getBook().getTitle(),
-                                        loan.getLoanDate(),
-                                        loan.getReturnDate(),
-                                        loan.getStudent().getName()
-                                )).toList();
+                        loan -> new LoanReport(
+                                loan.getBook().getTitle(),
+                                loan.getLoanDate(),
+                                loan.getReturnDate(),
+                                loan.getStudent().getName()
+                        )).toList();
     }
 }
