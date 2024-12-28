@@ -85,13 +85,13 @@ public class Main {
                     String isbn = reader.readLine();
 
                     try {
-                    bookService.findBookByISBN(isbn, null)
-                            .ifPresentOrElse(
-                                    System.out::println,
-                                    () -> {
-                                        throw new BookNotFoundException(isbn);
-                                    }
-                            );
+                        bookService.findBookByISBN(isbn, null)
+                                .ifPresentOrElse(
+                                        System.out::println,
+                                        () -> {
+                                            throw new BookNotFoundException(isbn);
+                                        }
+                                );
                     } catch (BookListEmpty e) {
                         System.out.println(e.getMessage());
                     }
@@ -116,14 +116,14 @@ public class Main {
                 case 5:
                     System.out.println("Listar Estudiantes");
                     try {
-                    studentService.getAllStudents().forEach(System.out::println);
+                        studentService.getAllStudents().forEach(System.out::println);
                     } catch (StudentListEmpty e) {
                         System.out.println(e.getMessage());
                     }
                     break;
 
                 case 6:
-                        System.out.println("Buscar estudiante por DNI");
+                    System.out.println("Buscar estudiante por DNI");
                     try {
                         if (studentService.getAllStudents().isEmpty()) {
                             throw new StudentListEmpty("No hay estudiantes registrados");
