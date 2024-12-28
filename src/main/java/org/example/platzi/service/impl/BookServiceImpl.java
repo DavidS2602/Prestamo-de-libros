@@ -1,5 +1,6 @@
 package org.example.platzi.service.impl;
 
+import org.example.platzi.exceptions.BookListEmpty;
 import org.example.platzi.exceptions.BookNotFoundException;
 import org.example.platzi.exceptions.DuplicateBookException;
 import org.example.platzi.exceptions.ErrorMessages;
@@ -19,9 +20,10 @@ public class BookServiceImpl implements IBookService {
         boolean isDuplicateBooks = books.stream()
                 .anyMatch(b -> b.getIsbn().equals(book.getIsbn()));
 
+
         if (isDuplicateBooks) {
             throw new DuplicateBookException(
-                    ErrorMessages.DUPLICATE_BOOK.formatMessage(book.getIsbn(), loan.getBook().getTitle())
+                    ErrorMessages.DUPLICATE_BOOK.formatMessage(book.getIsbn())
             );
         }
         books.add(book);
@@ -29,18 +31,31 @@ public class BookServiceImpl implements IBookService {
 
     @Override
     public List<Book> getAllBooks(Loan loan) {
+
+        if (books.isEmpty()) {
+            throw new BookListEmpty(
+                    ErrorMessages.BOOK_LIST_EMPTY.formatMessage()
+            );
+        }
+
         return books;
     }
 
     @Override
     public Optional<Book> findBookByISBN(String isbn, Loan loan) {
+        if (books.isEmpty()) {
+            throw new BookListEmpty(
+                    ErrorMessages.BOOK_LIST_EMPTY.formatMessage()
+            );
+        }
+
         Optional<Book> optionalBook = books.stream()
                 .filter(book -> book.getIsbn().equals(isbn))
                 .findFirst();
 
         if (optionalBook.isEmpty()) {
             throw new BookNotFoundException(
-                    ErrorMessages.BOOK_NOT_FOUND.formatMessage(isbn, loan.getBook().getTitle())
+                    ErrorMessages.BOOK_NOT_FOUND.formatMessage(isbn)
             );
         }
         return optionalBook;
