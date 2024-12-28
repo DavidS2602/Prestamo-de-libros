@@ -30,7 +30,7 @@ public class Main {
         ILoanService loanService = new LoanServiceImpl();
 
         do {
-            System.out.println("Menú de opciones");
+            System.out.println("Options Menu");
             System.out.println("1. Registrar Libro");
             System.out.println("2. Listar Libros");
             System.out.println("3. Buscar Libro por ISBN");
@@ -77,12 +77,21 @@ public class Main {
                     break;
 
                 case 3:
+                    System.out.println("Buscar Libro por ISBN");
+                    if (bookService.getAllBooks(null).isEmpty()) {
+                        throw new BookListEmpty("No hay libros registrados");
+                    }
                     System.out.println("Ingrese ISBN: ");
                     String isbn = reader.readLine();
 
                     try {
                     bookService.findBookByISBN(isbn, null)
-                            .ifPresentOrElse(System.out::println, () -> System.out.println("Libro no encontrado"));
+                            .ifPresentOrElse(
+                                    System.out::println,
+                                    () -> {
+                                        throw new BookNotFoundException(isbn);
+                                    }
+                            );
                     } catch (BookListEmpty e) {
                         System.out.println(e.getMessage());
                     }
@@ -106,18 +115,29 @@ public class Main {
 
                 case 5:
                     System.out.println("Listar Estudiantes");
+                    try {
                     studentService.getAllStudents().forEach(System.out::println);
+                    } catch (StudentListEmpty e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
 
                 case 6:
-                    try {
                         System.out.println("Buscar estudiante por DNI");
+                    try {
+                        if (studentService.getAllStudents().isEmpty()) {
+                            throw new StudentListEmpty("No hay estudiantes registrados");
+                        }
                         System.out.print("Ingrese DNI: ");
                         String dni = reader.readLine();
 
                         studentService.findStudentByDNI(dni)
-                                .ifPresentOrElse(System.out::println, () -> System.out.println("Estudiante no encontrado"));
-                    } catch (StudentNotFoundException e) {
+                                .ifPresentOrElse(
+                                        System.out::println,
+                                        () -> {
+                                            throw new StudentNotFoundException(dni);
+                                        });
+                    } catch (StudentListEmpty e) {
                         System.out.println(e.getMessage());
                     }
                     break;
@@ -168,7 +188,8 @@ public class Main {
                         System.out.println("Error: " + e.getMessage());
                     }
                     break;
-
+                case 0:
+                    break;
             }
 
         } while (true);

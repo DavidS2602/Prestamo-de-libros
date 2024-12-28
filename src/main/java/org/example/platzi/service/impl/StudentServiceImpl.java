@@ -2,6 +2,7 @@ package org.example.platzi.service.impl;
 
 import org.example.platzi.exceptions.DuplicateStudentException;
 import org.example.platzi.exceptions.ErrorMessages;
+import org.example.platzi.exceptions.StudentListEmpty;
 import org.example.platzi.exceptions.StudentNotFoundException;
 import org.example.platzi.model.Student;
 import org.example.platzi.service.IStudentService;
@@ -28,11 +29,23 @@ public class StudentServiceImpl implements IStudentService {
 
     @Override
     public List<Student> getAllStudents() {
+        if (students.isEmpty()) {
+            throw new StudentListEmpty(
+                    ErrorMessages.STUDENT_LIST_EMPTY.formatMessage()
+            );
+        }
         return students;
     }
 
     @Override
     public Optional<Student> findStudentByDNI(String DNI) {
+
+        if (students.isEmpty()) {
+            throw new StudentListEmpty(
+                    ErrorMessages.STUDENT_LIST_EMPTY.formatMessage()
+            );
+        }
+
         Optional<Student> optionalStudent = students.stream()
                 .filter(book -> book.getDNI().equals(DNI))
                 .findFirst();
