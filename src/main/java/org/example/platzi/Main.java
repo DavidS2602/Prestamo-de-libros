@@ -31,22 +31,22 @@ public class Main {
 
         do {
             System.out.println("Options Menu");
-            System.out.println("1. Registrar Libro");
-            System.out.println("2. Listar Libros");
-            System.out.println("3. Buscar Libro por ISBN");
-            System.out.println("4. Registar Estudiante");
-            System.out.println("5. Listar Estudiantes");
-            System.out.println("6. Buscar Estudiante por DNI.");
-            System.out.println("7. Registrar Préstamo.");
-            System.out.println("8. Listar Préstamos por Rango de Fecha");
+            System.out.println("1. Register Book");
+            System.out.println("2. List Books");
+            System.out.println("3. Search Book by ISBN");
+            System.out.println("4. Register Student");
+            System.out.println("5. List Students");
+            System.out.println("6. Search Student by DNI");
+            System.out.println("7. Register Loan");
+            System.out.println("8. List Loans by Date Range");
 
-            System.out.println("0. Salir");
+            System.out.println("0. Exit");
 
-            int choice = getIntInput("Ingrese una opción: ");
+            int choice = getIntInput("Enter an option: ");
             switch (choice) {
                 case 1:
                     try {
-                        System.out.println("Registrar Libro");
+                        System.out.println("Register Book");
                         System.out.print("Title: ");
                         String title = reader.readLine();
 
@@ -61,14 +61,14 @@ public class Main {
 
                         Book newBook = new Book(title, author, year, isbn);
                         bookService.registerBook(newBook, null);
-                        System.out.println("Libro registrado exitosamente");
+                        System.out.println("Book registered successfully");
                     } catch (DuplicateBookException e) {
                         System.out.println(e.getMessage());
                     }
                     break;
 
                 case 2:
-                    System.out.println("Listar Libros");
+                    System.out.println("List Books");
                     try {
                         bookService.getAllBooks(null).forEach(System.out::println);
                     } catch (BookListEmpty e) {
@@ -77,11 +77,11 @@ public class Main {
                     break;
 
                 case 3:
-                    System.out.println("Buscar Libro por ISBN");
+                    System.out.println("Search Book by ISBN");
                     if (bookService.getAllBooks(null).isEmpty()) {
-                        throw new BookListEmpty("No hay libros registrados");
+                        throw new BookListEmpty("No books registered");
                     }
-                    System.out.println("Ingrese ISBN: ");
+                    System.out.println("Enter ISBN: ");
                     String isbn = reader.readLine();
 
                     try {
@@ -99,22 +99,22 @@ public class Main {
 
                 case 4:
                     try {
-                        System.out.println("Registrar Estudiante");
-                        System.out.print("Nombre: ");
+                        System.out.println("Register Student");
+                        System.out.print("Name: ");
                         String name = reader.readLine();
 
                         System.out.print("DNI: ");
                         String dni = reader.readLine();
 
                         studentService.createStudent(new Student(name, dni));
-                        System.out.println("Estudiante registrado exitosamente");
+                        System.out.println("Student registered successfully");
                     } catch (DuplicateStudentException e) {
                         System.out.println(e.getMessage());
                     }
                     break;
 
                 case 5:
-                    System.out.println("Listar Estudiantes");
+                    System.out.println("List Students");
                     try {
                         studentService.getAllStudents().forEach(System.out::println);
                     } catch (StudentListEmpty e) {
@@ -123,12 +123,12 @@ public class Main {
                     break;
 
                 case 6:
-                    System.out.println("Buscar estudiante por DNI");
+                    System.out.println("Search Student by DNI");
                     try {
                         if (studentService.getAllStudents().isEmpty()) {
-                            throw new StudentListEmpty("No hay estudiantes registrados");
+                            throw new StudentListEmpty("No students registered");
                         }
-                        System.out.print("Ingrese DNI: ");
+                        System.out.print("Enter DNI: ");
                         String dni = reader.readLine();
 
                         studentService.findStudentByDNI(dni)
@@ -143,12 +143,12 @@ public class Main {
                     break;
 
                 case 7:
-                    System.out.println("Registrar Préstamo");
+                    System.out.println("Register Loan");
                     try {
-                        System.out.print("Ingrese el DNI del estudiante: ");
+                        System.out.print("Enter Student DNI: ");
                         String studentDNI = reader.readLine();
 
-                        System.out.print("Ingrese el ISBN del libro: ");
+                        System.out.print("Enter Book ISBN: ");
                         String bookISBN = reader.readLine();
 
                         Student student = studentService.findStudentByDNI(studentDNI)
@@ -160,7 +160,7 @@ public class Main {
                         Loan loan = new Loan(student, book, true);
                         loanService.registerLoan(loan, student, LocalDate.now());
 
-                        System.out.println("Préstamo registrado exitosamente");
+                        System.out.println("Loan registered successfully");
 
                     } catch (DuplicateLoanException e) {
                         System.out.println(e.getMessage());
@@ -169,18 +169,18 @@ public class Main {
 
                 case 8:
                     try {
-                        System.out.println("Listar Préstamos por Rango de Fecha");
+                        System.out.println("List Loans by Date Range");
 
-                        System.out.print("Ingrese la fecha de inicio (yyyy-MM-dd): ");
+                        System.out.print("Enter start date (yyyy-MM-dd): ");
                         LocalDate startDate = LocalDate.parse(reader.readLine());
 
-                        System.out.print("Ingrese la fecha de fin (yyyy-MM-dd): ");
+                        System.out.print("Enter end date (yyyy-MM-dd): ");
                         LocalDate endDate = LocalDate.parse(reader.readLine());
 
-                        // Obtener préstamos dentro del rango
+                        // Get loans within the range
                         List<LoanReport> reports = loanService.reportLoans(startDate, endDate);
                         if (reports.isEmpty()) {
-                            System.out.println("No se encontraron préstamos en el rango especificado.");
+                            System.out.println("No loans found in the specified range.");
                         } else {
                             reports.forEach(System.out::println);
                         }
@@ -200,7 +200,7 @@ public class Main {
         try {
             return Integer.parseInt(reader.readLine());
         } catch (IOException | NumberFormatException e) {
-            System.out.println("Ingrese un número válido");
+            System.out.println("Enter a valid number");
             return getIntInput(message);
         }
     }
