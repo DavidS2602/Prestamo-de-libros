@@ -13,14 +13,14 @@ import java.util.Optional;
 public class StudentServiceImpl implements IStudentService {
     private List<Student> students = new ArrayList<>();
     @Override
-    public void createStudent(Student student) {
+    public void createStudent(Student student ) {
         boolean isDuplicateStudent = students.stream()
                 .anyMatch(s -> s.getName().equals(student.getName())
                         && s.getDNI().equals(student.getDNI()));
 
         if (isDuplicateStudent) {
             throw new DuplicateStudentException(
-                    ErrorMessages.DUPLICATE_STUDENT.formatMessage(student.getName(), loan.getBook().getTitle())
+                    ErrorMessages.DUPLICATE_STUDENT.formatMessage(student.getDNI())
             );
         }
         students.add(student);
@@ -39,7 +39,7 @@ public class StudentServiceImpl implements IStudentService {
 
         if (optionalStudent.isEmpty()) {
             throw new StudentNotFoundException(
-                    ErrorMessages.STUDENT_NOT_FOUND.formatMessage(DNI, loan.getBook().getTitle())
+                    ErrorMessages.STUDENT_NOT_FOUND.formatMessage(DNI)
             );
         }
         return optionalStudent;

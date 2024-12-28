@@ -21,7 +21,7 @@ public class LoanServiceImpl implements ILoanService {
                         && l.getLoanDate().equals(date)
                 );
         if (isDuplicateLoan) {
-            ErrorMessages.DUPLICATE_LOAN.formatMessage(student.getDNI(), loan.getBook().getTitle());
+            ErrorMessages.DUPLICATE_LOAN.formatMessage(student.getDNI());
         }
         loans.add(loan);
         System.out.println("Load register successful");
